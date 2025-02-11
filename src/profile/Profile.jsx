@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaUser } from "react-icons/fa";
 import SideBar from "../sidebar/SideBar";
-
-// Firebase imports
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 
@@ -11,18 +9,13 @@ export default function ProfilePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
-
-  // Firebase references
   const auth = getAuth();
   const db = getFirestore();
-
-  // Fetch user data when component mounts
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setEmail(user.email);
 
-        // Fetch additional user info from Firestore (e.g., name)
         const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
 
@@ -30,23 +23,20 @@ export default function ProfilePage() {
           setName(userDoc.data().name || "John Doe");
         }
       } else {
-        // Handle user not logged in (e.g., redirect to login)
       }
     });
 
-    return unsubscribe; // Cleanup the listener when the component unmounts
+    return unsubscribe; 
   }, [auth, db]);
 
   const updateUserProfile = (e) => {
     e.preventDefault();
     alert("Profile updated successfully!");
-    // Add logic here to update user profile in Firestore if needed
   };
 
   const changeUserPassword = (e) => {
     e.preventDefault();
     alert("Password updated successfully!");
-    // Add logic to update password using Firebase Auth here
   };
 
   return (

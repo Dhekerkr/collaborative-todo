@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { db } from "../firebase/firebaseConfig";
-import { collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc } from "firebase/firestore"; // Import Firestore functions
+import { collection, addDoc, getDocs, query, where, doc, updateDoc, deleteDoc } from "firebase/firestore"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import SideBar from "../sidebar/SideBar";
@@ -22,11 +22,10 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
-        fetchTasks(currentUser.uid); // Fetch tasks for the logged-in user
+        fetchTasks(currentUser.uid); 
       } else {
         navigate("/");
       }
@@ -34,11 +33,11 @@ const Dashboard = () => {
     return () => unsubscribe();
   }, [navigate]);
 
-  // Fetch tasks from Firestore
+
   const fetchTasks = async (userId) => {
     try {
       const tasksCollection = collection(db, "tasks");
-      const q = query(tasksCollection, where("userId", "==", userId)); // Query tasks for the current user
+      const q = query(tasksCollection, where("userId", "==", userId)); 
       const querySnapshot = await getDocs(q);
 
       const tasksData = [];
@@ -46,14 +45,13 @@ const Dashboard = () => {
         tasksData.push({ id: doc.id, ...doc.data() });
       });
 
-      setTasks(tasksData); // Update local tasks state
+      setTasks(tasksData); 
     } catch (error) {
       console.error("Error fetching tasks: ", error);
       alert("Error fetching tasks: " + error.message);
     }
   };
 
-  // Add Task to Firestore
   const addTask = async () => {
     if (!taskTitle.trim() || !taskDescription.trim()) {
       alert("Both fields are required!");
@@ -66,11 +64,11 @@ const Dashboard = () => {
         title: taskTitle,
         description: taskDescription,
         createdAt: new Date(),
-        userId: user.uid, // Associate task with the logged-in user
-        completed: false, // Default completion status
+        userId: user.uid, 
+        completed: false, 
       });
 
-      // Update local tasks state
+      
       const newTask = { id: docRef.id, title: taskTitle, description: taskDescription, completed: false };
       setTasks([...tasks, newTask]);
 
@@ -83,18 +81,17 @@ const Dashboard = () => {
     }
   };
 
-  // Delete Task from Firestore
+  
   const deleteTask = async (taskId) => {
     try {
-      await deleteDoc(doc(db, "tasks", taskId)); // Delete task from Firestore
-      setTasks(tasks.filter((task) => task.id !== taskId)); // Update local state
+      await deleteDoc(doc(db, "tasks", taskId)); 
+      setTasks(tasks.filter((task) => task.id !== taskId)); 
       alert("Task deleted successfully!");
     } catch (error) {
       alert("Error deleting task: " + error.message);
     }
   };
 
-  // Open Edit Modal
   const openEditModal = (task) => {
     setEditTaskId(task.id);
     setEditTaskTitle(task.title);
@@ -102,7 +99,6 @@ const Dashboard = () => {
     setShowEditModal(true);
   };
 
-  // Close Edit Modal
   const closeEditModal = () => {
     setShowEditModal(false);
     setEditTaskId(null);
@@ -110,7 +106,6 @@ const Dashboard = () => {
     setEditTaskDescription("");
   };
 
-  // Edit Task in Firestore
   const editTask = async () => {
     if (!editTaskTitle.trim() || !editTaskDescription.trim()) {
       alert("Both fields are required!");
@@ -125,7 +120,6 @@ const Dashboard = () => {
         description: editTaskDescription,
       });
 
-      // Update local tasks state
       setTasks(
         tasks.map((task) =>
           task.id === editTaskId
@@ -143,7 +137,6 @@ const Dashboard = () => {
     }
   };
 
-  // Toggle Task Completion
   const toggleTaskCompletion = async (taskId, completed) => {
     try {
       const taskRef = doc(db, "tasks", taskId);
@@ -151,7 +144,6 @@ const Dashboard = () => {
         completed: !completed,
       });
 
-      // Update local tasks state
       setTasks(
         tasks.map((task) =>
           task.id === taskId ? { ...task, completed: !completed } : task
@@ -162,16 +154,13 @@ const Dashboard = () => {
     }
   };
 
-  // Logout
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/login");
   };
 
-  // Open Add Task Modal
   const openModal = () => setShowModal(true);
 
-  // Close Add Task Modal
   const closeModal = () => {
     setShowModal(false);
     setTaskTitle("");

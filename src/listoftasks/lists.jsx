@@ -8,14 +8,13 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import SideBar from "../sidebar/SideBar";
 
 const List = () => {
-  const [lists, setLists] = useState([]); // Stores all lists
-  const [tasks, setTasks] = useState([]); // Stores all tasks
-  const [user, setUser] = useState(null); // Store the current user
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const [lists, setLists] = useState([]); 
+  const [tasks, setTasks] = useState([]); 
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
 
-  // Fetch the current user and data when the component mounts
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -27,10 +26,9 @@ const List = () => {
       }
     });
 
-    return () => unsubscribe(); // Cleanup on unmount
+    return () => unsubscribe();
   }, [navigate]);
 
-  // Fetch lists from Firestore
   const fetchLists = async (userId) => {
     try {
       const listsCollection = collection(db, "lists");
@@ -48,7 +46,6 @@ const List = () => {
     }
   };
 
-  // Fetch tasks from Firestore
   const fetchTasks = async (userId) => {
     try {
       const tasksCollection = collection(db, "tasks");
@@ -69,10 +66,9 @@ const List = () => {
     }
   };
 
-  // Calculate background color based on priority
   const getPriorityColor = (priority) => {
-    const hue = (10 - priority) * 25; // Map priority (1-10) to hue (225-0)
-    return `hsl(${hue}, 100%, 85%)`; // Light pastel colors
+    const hue = (10 - priority) * 25;
+    return `hsl(${hue}, 100%, 85%)`; 
   };
 
   if (loading) {

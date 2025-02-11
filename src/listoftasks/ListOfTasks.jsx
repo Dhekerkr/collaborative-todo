@@ -8,15 +8,15 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import SideBar from "../sidebar/SideBar";
 
 const ListOfTasks = () => {
-  const [lists, setLists] = useState([]); // Stores all lists
-  const [tasks, setTasks] = useState([]); // Stores all tasks
-  const [newListName, setNewListName] = useState(""); // Input for new list name
+  const [lists, setLists] = useState([]); 
+  const [tasks, setTasks] = useState([]); 
+  const [newListName, setNewListName] = useState("");
   const [newPriority, setNewPriority] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [showListModal, setShowListModal] = useState(false); // Modal for creating lists
-  const [user, setUser] = useState(null); // Store the current user
+  const [showListModal, setShowListModal] = useState(false);
+  const [user, setUser] = useState(null); 
   const navigate = useNavigate();
-  // Fetch the current user and data when the component mounts
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
@@ -28,7 +28,7 @@ const ListOfTasks = () => {
       }
     });
 
-    return () => unsubscribe(); // Cleanup on unmount
+    return () => unsubscribe(); 
   }, [navigate]);
 
   // Fetch lists from Firestore
@@ -48,7 +48,6 @@ const ListOfTasks = () => {
     }
   };
 
-  // Fetch tasks from Firestore
   const fetchTasks = async (userId) => {
     try {
       const tasksCollection = collection(db, "tasks");
@@ -67,8 +66,6 @@ const ListOfTasks = () => {
     }
   };
 
-  // Create a new list
-  // Inside the createList function
 const createList = async () => {
     if (!newListName.trim()||!newPriority.trim()) {
       alert("List name cannot be empty!");
@@ -86,12 +83,12 @@ const createList = async () => {
         name: newListName,
         createdAt: new Date(),
         userId: user.uid,
-        priority: newPriority, // Default priority (can be adjusted based on user input)
+        priority: newPriority,
       });
       setLists([...lists, { id: docRef.id, name: newListName, priority: 5 }]);
       setNewListName("");
       setNewPriority(0);
-      setShowListModal(false); // Close the modal
+      setShowListModal(false); 
       alert("List created successfully!");
     } catch (error) {
       console.error("Error creating list: ", error);
@@ -101,27 +98,20 @@ const createList = async () => {
     }
   };
 
-  // Handle drag start
   const handleDragStart = (e, taskId) => {
     e.dataTransfer.setData("taskId", taskId);
   };
 
-  // Handle drag over
   const handleDragOver = (e) => {
-    e.preventDefault(); // Allow drop
+    e.preventDefault();
   };
 
-  // Handle drop
   const handleDrop = async (e, listId) => {
     e.preventDefault();
     const taskId = e.dataTransfer.getData("taskId");
-
-    // Update the task's listId in Firestore
     try {
       const taskRef = doc(db, "tasks", taskId);
       await updateDoc(taskRef, { listId: listId });
-
-      // Update local tasks state
       setTasks(
         tasks.map((task) =>
           task.id === taskId ? { ...task, listId: listId } : task
