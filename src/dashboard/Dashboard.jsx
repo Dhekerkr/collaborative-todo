@@ -156,7 +156,7 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     await signOut(auth);
-    navigate("/login");
+    navigate("/");
   };
 
   const openModal = () => setShowModal(true);
