@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #4A00E0 0%, #8E2DE2 50%, #2575FC 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.profile-card {
+    width: 150%;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background: white;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.profile-avatar-container {
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #ff6b6b, #4204be);
+    border-radius: 50%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-avatar {
+    color: white;
+    font-size: 50px;
+    transition: transform 0.3s ease;
+}
+
+.profile-avatar-container:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.profile-email {
+    font-size: 1.1rem;
+    margin-top: 10%;
+    color: #333;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-email:hover {
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+.btn-primary, .btn-warning {
+    border: none;
+    font-size: 1rem;
+    padding: 10px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 8px;
+    margin-top: 10px;
+    width: 100%;
+    background: linear-gradient(45deg, #ff6b6b, #7343e3);
+    color: white;
+}
+
+.btn-primary:hover, .btn-warning:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.form-group {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        max-width: 95%;
+        padding: 25px;
+    }
+
+    .profile-avatar-container {
+        width: 80px;
+        height: 80px;
+    }
+}
