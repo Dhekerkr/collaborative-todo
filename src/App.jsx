@@ -15,7 +15,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<AuthForm />} />
+        <Route path="/" element={<AuthForm />} />
         <Route path="/signup" element={<AuthForm />} />
         <Route path="/dashboard" element={<Dashboard />}/>
         <Route path="/add-list" element={<ListOfTasks/>}/>

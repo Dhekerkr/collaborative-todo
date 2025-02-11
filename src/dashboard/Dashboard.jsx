@@ -28,7 +28,7 @@ const Dashboard = () => {
         setUser(currentUser);
         fetchTasks(currentUser.uid); // Fetch tasks for the logged-in user
       } else {
-        navigate("/login");
+        navigate("/");
       }
     });
     return () => unsubscribe();

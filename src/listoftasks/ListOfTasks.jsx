@@ -24,7 +24,7 @@ const ListOfTasks = () => {
         fetchLists(currentUser.uid);
         fetchTasks(currentUser.uid);
       } else {
-        navigate("/login");
+        navigate("/");
       }
     });
 
